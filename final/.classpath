@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="C:/Users/JUMPP/Desktop/YAY2/taxi/java mail API/activation.jar"/>
 	<classpathentry kind="lib" path="C:/Users/JUMPP/Desktop/YAY2/taxi/java mail API/javax.mail-1.4.4.jar"/>
 	<classpathentry kind="lib" path="C:/Users/JUMPP/Desktop/YAY2/taxi/java mail API/mail.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/serverTest"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

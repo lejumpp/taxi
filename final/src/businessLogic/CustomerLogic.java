@@ -26,13 +26,6 @@ public class CustomerLogic
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
 	public boolean sendMail(String email, String firstName, String lastName, String message, String query )
 	{
 		try

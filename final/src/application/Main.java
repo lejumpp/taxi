@@ -1,6 +1,7 @@
 package application;
 	
 import businessLogic.*;
+import client.Client;
 import database.MissedRequestProvider;
 import database.TaxiProvider;
 import customerService.*;
@@ -8,6 +9,10 @@ import javafx.scene.control.TextArea;
 
 import java.util.List;
 import java.util.Random;
+import serverTest.*;
+
+import java.net.*; 
+import java.io.*; 
 
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -42,7 +47,9 @@ import javafx.stage.Stage;
 import taxi.Taxi;
 import vehicle.Vehicle;
 import javafx.geometry.Insets;
-public class Main extends Application {
+public class Main extends Application 
+{
+	
 	
  	Font f = new Font("Arial", 20);
 	GridPane grid= new GridPane();
@@ -59,9 +66,15 @@ public class Main extends Application {
 	Button btn6 = new Button();
 	Button btn7 = new Button();
 	
-    public static void main(String[] args) {
+	Client client = Client.getInstance();
+	
+    public static void main(String[] args) 
+    {
         launch(args);
     }
+    
+    
+    
     @Override
     public void start(Stage primaryStage) {
     	GridPane gridL = new GridPane();
@@ -294,8 +307,8 @@ public class Main extends Application {
     
     public void checkCusLogin() {
     	
-    	String  User = "Customer123";
-    	String Password = "Cabbie1";
+    	String  User = "customer";
+    	String Password = "cabbie";
     	if (User.equals(nametextfield2.getText())&& Password.equals(passtextfield2.getText())) {
     		showCustMenu();
     		
@@ -542,9 +555,8 @@ public class Main extends Application {
     	MkRe.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+            	cust.Reminder(e.getDest().length()+e.getSource().length());
                 RequestConfirmed();
-                
-                
                 stage2.close();
                 
             }
@@ -645,7 +657,7 @@ public class Main extends Application {
         	TextField Feedback   = new TextField();
         	Label Fb= new Label("FEEDBACK");
         	
-        	Button confirm = new Button("CONFRIM");
+        	Button confirm = new Button("CONFIRM");
         Text Poor = new Text("Very Poor"); Text VryG = new Text("Very Good"); Text Inter = new Text("Intermediate");
         
         	GridPane.setConstraints(rb1,0,6);
@@ -660,6 +672,21 @@ public class Main extends Application {
         	GridPane.setConstraints(Poor ,1,6);
         	GridPane.setConstraints(VryG ,1,10);
         	GridPane.setConstraints(Inter,1,7);
+        	confirm.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                  CustomerLogic email1 = new CustomerLogic();
+                  if(true) {
+               	   System.out.println("Thank you!");
+                  }else {
+               	   
+               	   System.out.println("Error");
+                  }
+                  
+                    //grid2.close();
+                    
+                }
+            });
         	
     	    ((Group) scene.getRoot()).getChildren().add(grid2);
     	    grid2.setId("pane");
@@ -712,7 +739,7 @@ public class Main extends Application {
              public void handle(ActionEvent event) {
                CustomerLogic email1 = new CustomerLogic();
                if(email1.sendMail(EmailT.getText(),FnameT.getText(),LnameT.getText(),message.getText(),queryT.getText())) {
-            	   System.out.println("Thank u for u feedback");
+            	   System.out.println("Thank you for your feedback");
                }else {
             	   
             	   System.out.println("MESSAGE NOT SENT");
@@ -735,14 +762,14 @@ public class Main extends Application {
     	
     }
     
-    public void checkLogin() {
+    public void checkLogin() throws ClassNotFoundException {
     	String  User = "Manager123";
     	String Password = "Cabbie1";
+    	client.authenticator("","");
     	if (User.equals(nametextfield.getText())&& Password.equals(passtextfield.getText())) {
     		showMenu();
     		
     	}else {
-    		PopUpW("INCORRECT PASSWORD RENTER");
     		
     	}
    	
@@ -781,12 +808,6 @@ public class Main extends Application {
     	      
     	popupwindow.showAndWait();
     	       
-    	
-    	
-    	
-    	
-    	
-    	
     }
     
     public void ManagerLogin() {
@@ -817,17 +838,17 @@ public class Main extends Application {
     	
     	GridPane.setConstraints(passtextfield, 1,2 );
     	
-    	
-    	
-    	
-    	
-    	
         Button btn = new Button();
         btn.setText("LOGIN'");
         btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                checkLogin();
+                try {
+					checkLogin();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
                 
             }
         });
