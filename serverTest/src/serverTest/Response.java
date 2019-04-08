@@ -1,9 +1,11 @@
 package serverTest;
 
-public class Response <T>
+import java.io.Serializable;
+
+public class Response <T> implements Serializable
 {
 	private boolean isError;
-	private String erorr;
+	private String error;
 	private T obj;
 	
 	public Response() {
@@ -14,8 +16,15 @@ public class Response <T>
 	public Response(boolean isError, String erorr, T obj) {
 		super();
 		this.isError = isError;
-		this.erorr = erorr;
+		this.error = erorr;
 		this.obj = obj;
+	}
+	
+	public Response(T obj)
+	{
+		this.isError=false;
+		this.error= "";
+		this.obj=obj;
 	}
 	
 	public boolean isError() {
@@ -27,11 +36,11 @@ public class Response <T>
 	}
 	
 	public String getErorr() {
-		return erorr;
+		return error;
 	}
 	
 	public void setErorr(String erorr) {
-		this.erorr = erorr;
+		this.error = erorr;
 	}
 	
 	public T getObj() {

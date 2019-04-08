@@ -9,12 +9,16 @@ import javafx.scene.control.TextArea;
 
 import java.util.List;
 import java.util.Random;
+
+import javax.swing.JOptionPane;
+
 import serverTest.*;
 
 import java.net.*; 
 import java.io.*; 
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -66,7 +70,7 @@ public class Main extends Application
 	Button btn6 = new Button();
 	Button btn7 = new Button();
 	
-	Client client = Client.getInstance();
+	//Client client = Client.getInstance();
 	
     public static void main(String[] args) 
     {
@@ -763,15 +767,35 @@ public class Main extends Application
     }
     
     public void checkLogin() throws ClassNotFoundException {
-    	String  User = "Manager123";
-    	String Password = "Cabbie1";
-    	client.authenticator("","");
-    	if (User.equals(nametextfield.getText())&& Password.equals(passtextfield.getText())) {
-    		showMenu();
-    		
-    	}else {
-    		
-    	}
+    	String  username =nametextfield.getText() ;
+    	String password =passtextfield.getText() ;
+    	Client client= Client.getInstance();
+    	Thread t= new Thread(new Runnable() {
+    		public void run()
+    		{
+    			System.out.println("Client attempting toauthenticate");
+    			
+    			
+    			if(client.authenticate(username,password))
+    			{
+    				Platform.runLater(()-> showMenu());//good login
+    			}
+    			else
+    			{
+    				JOptionPane.showMessageDialog(null, "Bad login");//no login
+    			}
+    		}
+    	});
+    	t.start();
+    	
+    	
+//    	//client.authenticator("","");
+//    	if ("manager".equals(nametextfield.getText())&& "cabbie".equals(passtextfield.getText())) {
+//    		
+//    		
+//    	}else {
+//    		
+//    	}
    	
     	
     	

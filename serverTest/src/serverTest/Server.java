@@ -24,35 +24,41 @@ public class Server
             System.out.println("Waiting for a client ..."); 
   
             socket = server.accept(); 
+            getStreams();
             System.out.println("Client accepted"); 
+            System.out.println("Waiting for request from client");
+            Request request= new Request();
+            do {
+            	request= (Request)ois.readObject();
+            	System.out.println("Request recieved "+request);
+            	
+            	if(request!=null) {
+            		if(request.getAction().equals("login")) {
+            			System.out.println("This is a login request");
+            			Credentials creds = (Credentials)request.getObj();
+            			if(creds.getEmail().equals("manager")&& creds.getPassword().equals("cabbie")) {
+            				//success
+            				System.out.println("Successful login");
+            				oos.writeObject(new Response(true));
+            			}
+            			else
+            			{
+            				System.out.println("Incorrect credentials");
+            				oos.writeObject(new Response(false));
+            			}
+            		}
+            	}
+            	
+            }while(request!=null && !request.getAction().equals("Exit"));
   
-            // takes input from the client socket 
-            in = new DataInputStream( 
-                new BufferedInputStream(socket.getInputStream())); 
-  
-            String line = ""; 
-  
-            // reads message from client until "Over" is sent 
-            while (!line.equals("Over")) 
-            { 
-                try
-                { 
-                    line = in.readUTF(); 
-                    System.out.println(line); 
-  
-                } 
-                catch(IOException i) 
-                { 
-                    System.out.println(i); 
-                } 
-            } 
             System.out.println("Closing connection"); 
   
             // close connection 
+            in.close();
             socket.close(); 
-            in.close(); 
+             
         } 
-        catch(IOException i) 
+        catch(IOException | ClassNotFoundException i) 
         { 
             System.out.println(i); 
         } 

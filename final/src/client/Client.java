@@ -15,23 +15,26 @@ public class Client implements Serializable
     private DataInputStream input = null; 
     private DataOutputStream out = null; 
     private ObjectInputStream in= null;
+    private ObjectOutputStream oos=null;
+    private static Client instance=null;
   
     // constructor to put ip address and port 
-    public Client(String address, int port) 
+    private Client(String address, int port) 
     { 
     	//Main app = null;  	
         // establish a connection 
         try
         { 
             socket = new Socket(address, port); 
-            in= new ObjectInputStream(socket.getInputStream());
+            //in= new ObjectInputStream(socket.getInputStream());
             System.out.println("Connected"); 
   
             // takes input from terminal 
             input  = new DataInputStream(System.in); 
   
             // sends output to the socket 
-            out    = new DataOutputStream(socket.getOutputStream()); 
+            //out    = new DataOutputStream(socket.getOutputStream()); 
+            getStreams();
         } 
         catch(UnknownHostException u) 
         { 
@@ -41,48 +44,18 @@ public class Client implements Serializable
         { 
             System.out.println(i); 
         } 
-  
-        // string to read message from input 
-        /*String line = ""; 
-  
-        // keep reading until "Over" is input 
-        while (!line.equals("Over")) 
-        { 
-            try
-            { 
-                line = input.readLine(); 
-                out.writeUTF(line); 
-            } 
-            catch(IOException i) 
-            { 
-                System.out.println(i); 
-            } 
-        } 
-  
-        // close the connection 
-        try
-        { 
-            input.close(); 
-            out.close(); 
-            socket.close(); 
-        } 
-        catch(IOException i) 
-        { 
-            System.out.println(i); 
-        } */
     } 
     
-    @SuppressWarnings("null")
-	public boolean authenticator(String user, String password) throws ClassNotFoundException
+	public boolean authenticate(String user, String password)
     {
-    	ObjectOutputStream outObj=null;
     	try
     	{
+    		//getStreams();
     		Credentials cred= new Credentials(user,password);
     		Request req= new Request();
     		req.setAction("login");
     		req.setObj(cred);
-    		outObj.writeObject(req);
+    		oos.writeObject(req);
     		Response resp=(Response) in.readObject();
     		Boolean successfulLogin=(Boolean)resp.getObj();
     		if(successfulLogin)
@@ -97,13 +70,25 @@ public class Client implements Serializable
     	catch(IOException e)
     	{
     		e.printStackTrace();
-    	}
+    	} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	return false;
     }
+	
+	private void getStreams() {
+		try {
+			oos = new ObjectOutputStream(socket.getOutputStream());
+			in = new ObjectInputStream(socket.getInputStream());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
   
     public static void main(String args[]) 
     {
-    	//Main app= new Main();
     	EventQueue.invokeLater(new Runnable() {
 
 			@Override
@@ -111,14 +96,15 @@ public class Client implements Serializable
 				// TODO Auto-generated method stub
 				Application.launch(Main.class,args);
 			}
-    		
     	});
-        
-        
     }
 
 	public static Client getInstance() {
 		// TODO implement singleton
-		return new Client("127.0.0.1", 5000); 
+		if(instance==null)
+		{
+			instance= new Client("127.0.0.1", 5000); 
+		}
+		return instance; 
 	} 
 } 
