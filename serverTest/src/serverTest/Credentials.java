@@ -4,6 +4,11 @@ import java.io.Serializable;
 
 public class Credentials<T> implements Serializable
 {
+	@Override
+	public String toString() {
+		return "Credentials [email=" + email + ", password=" + password + ", obj=" + obj + "]";
+	}
+
 	private String email, password;
 	private T obj;
 	public Credentials() 

@@ -1,6 +1,7 @@
 package application;
 	
 import businessLogic.*;
+import businessLogic.CustomerLogic;
 import client.Client;
 import database.MissedRequestProvider;
 import database.TaxiProvider;
@@ -119,7 +120,7 @@ public class Main extends Application
         CLogin.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                CustomerLogin();
+                showCustMenu();
                 
             }
         });
@@ -144,84 +145,7 @@ public class Main extends Application
               
         primaryStage.show();
     }
-    public void CustomerLogin() {
-    	
-    	GridPane grid4 = new GridPane();
-    	 Scene scene = new Scene(grid4, 420, 200);
-    	Stage stage2 = new Stage();
-    	grid4.setId("pane");
-    	scene.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
-    	grid4.setPadding(new Insets(10,10,10,10));
-    	grid4.setVgap(8);
-    	grid4.setHgap(10);
-    	
-    	
-   
-    	stage2.setTitle("Customer  Login");
-    	
-    	
-    	Text text1 = new Text("RICHIE CABS");
-    	text1.setFont(f);
-    	GridPane.setConstraints(text1,0,0);
-    	Label name= new Label("User name");
-    	GridPane.setConstraints(name, 0, 1);
 
-
-    	GridPane.setConstraints(nametextfield2, 1, 1);
-
-
-    	Label password= new Label("Password");
-    	GridPane.setConstraints(password,0,2);
-
-    	
-    	GridPane.setConstraints(passtextfield2, 1,2 );
-    	
-    	Text text2 = new Text("New Member?");
-    	Font f1 = new Font("Arial",13);
-    	text2.setFont(f1);
-    	
-    	Button create  = new Button("Create Account");
-    	GridPane.setConstraints(create,2,5);
-    	
-    	GridPane.setConstraints(text2,1,5);
-        Button btn8 = new Button();
-        btn8.setText("LOGIN'");
-        btn8.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                checkCusLogin();
-                
-            }
-        });
-        
-        
-        
-        create.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                CreateMember();
-                
-            }
-        });
-        
-        GridPane.setConstraints(btn8, 1,3);
-
-
-        grid4.getChildren().addAll(text1,name,nametextfield2, password,
-                passtextfield2,btn8,create,text2);
-        
-        
-       
-    	
-        stage2.setScene(scene);
-
-        stage2.show();
-    	
-    	
-    	
-    	
-    	
-    }
     
  public void CreateMember() {
 	 
@@ -233,96 +157,12 @@ public class Main extends Application
  	grid3.setHgap(10);
  	TextField trn = new TextField();
  	
- 	TextField nameT = new TextField();
- 	TextField UsernameT = new TextField();
- 	PasswordField PasswordT  = new PasswordField();
- 	PasswordField Password2T  = new PasswordField();
- 	TextField Email = new TextField();
- 	Label Name = new Label("NAME");
- 	Label UN = new Label("USERNAME");
- 	Label P1 = new Label("Pasword");
- 	Label P2= new Label("Confirm Password");
- 	Label email = new Label("EMAIL");
- 	Button back = new Button ("<-");
- 	Button submit = new Button ("Submit");
- 	Text text = new Text("Please Enter ");
- 	Text tex2 = new Text("RICHIE CABS");
- 	tex2.setFont(f);
- 	
- 	
-	 GridPane.setConstraints(back,0,0);
-	 GridPane.setConstraints(tex2,2,1);
-	 GridPane.setConstraints(text,2,2);
-	 GridPane.setConstraints(Name,1,4);
-	 GridPane.setConstraints(nameT,2,4);
-	 GridPane.setConstraints(UN,1,5);
-	 GridPane.setConstraints(UsernameT,2,5);
-	 GridPane.setConstraints(P1,1,6);
-	 GridPane.setConstraints(PasswordT,2,6);
-	 GridPane.setConstraints(P2,1,7);
-	 GridPane.setConstraints(Password2T,2,7);
-	 GridPane.setConstraints(email,1,8);
-	 GridPane.setConstraints(Email,2,8);
-	 GridPane.setConstraints(submit,4,9);
+ 	 	
 	 
 	 
 	 
 	 
-	 back.setOnAction(new EventHandler<ActionEvent>() {
-         @Override
-         public void handle(ActionEvent event) {
-             Stage stage12 = new Stage();
-             start(stage12);
-             stage2.close();
-             
-         }
-     });
-	 final Popup popup = new Popup();
-	 
-	 
-	submit.setOnAction(new EventHandler<ActionEvent>() {
-         @Override
-         public void handle(ActionEvent event) {
-        	 
-        	    popup.setAutoFix(true);
-        	    popup.setAutoHide(true);
-        	    popup.setHideOnEscape(true);
-        	    Label label = new Label("ACCOUNT CREATED");
-        	    popup.show(stage2);
-        	    
-             
-         }
-     });
-	 
-	grid3.getChildren().addAll(back,tex2,text,Name,nameT,UN,UsernameT,P1,PasswordT,P2,Password2T,email,Email,submit);
-	 Scene scene = new Scene(grid3, 420, 400);
-	 grid3.setId("pane");
- 	scene.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
-	 
-     stage2.setScene(scene);
-
-     stage2.show();
- 	
-	 
-	 
-	 
-	 
- }
-    
-    public void checkCusLogin() {
-    	
-    	String  User = "customer";
-    	String Password = "cabbie";
-    	if (User.equals(nametextfield2.getText())&& Password.equals(passtextfield2.getText())) {
-    		showCustMenu();
-    		
-    		
-    	}else {
-    		PopUpW("INCORRECT PASSWORD RENTER");
-    	}
-    	
-    }
-    
+ }    
     
     public void showCustMenu() {
     	Stage stage2  = new Stage();
@@ -342,16 +182,15 @@ public class Main extends Application
     	
     	Button Request = new  Button("Make Request");
     	Button  Email = new Button("Email");
-    	Button Logout = new Button ("Logout");
     	Button back  = new Button("<-");
     	GridPane.setConstraints(back,0,0);
     	GridPane.setConstraints(text1,3,1);
     	GridPane.setConstraints(Request,3,2);
     	GridPane.setConstraints(Email,3,3);
-    	GridPane.setConstraints(Logout,3,4);
+
     	
     	
-    	 grid2.getChildren().addAll(text1,back,Request,Email,Logout);
+    	 grid2.getChildren().addAll(text1,back,Request,Email);
     	 Request.setOnAction(new EventHandler<ActionEvent>() {
              @Override
              public void handle(ActionEvent event) {
@@ -375,7 +214,7 @@ public class Main extends Application
     	 back.setOnAction(new EventHandler<ActionEvent>() {
              @Override
              public void handle(ActionEvent event) {
-                CustomerLogin();
+                start(stage2);
                 
                  stage2.close();
                  
@@ -515,7 +354,7 @@ public class Main extends Application
     	
     	DT.setText(Integer.toString(e.getDest().length()+e.getSource().length()));
     	//int price = businessLogic.CustomerLogic.calculateDistance(e.getSource(),e.getDest());
-    	CustomerLogic cust = new CustomerLogic();
+    	serverTest.CustomerLogic cust = new serverTest.CustomerLogic();
     	int price = cust.calculateDistance(e.getSource(),e.getDest());
     	PT.setText(Integer.toString(price));
     	
@@ -558,9 +397,15 @@ public class Main extends Application
     	
     	MkRe.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent event) {
-            	cust.Reminder(e.getDest().length()+e.getSource().length());
-                RequestConfirmed();
+            public void handle(ActionEvent event)
+            {
+            	if(!cust.checkAvailability())
+            	{
+            		System.out.println("Unavailable cabs");
+            	}
+            	//cust.Reminder(e.getDest().length()+e.getSource().length());
+                //RequestConfirmed();
+            	
                 stage2.close();
                 
             }
@@ -740,7 +585,8 @@ public class Main extends Application
     	GridPane.setConstraints(submit,2,6);
     	submit.setOnAction(new EventHandler<ActionEvent>() {
              @Override
-             public void handle(ActionEvent event) {
+             public void handle(ActionEvent event) 
+             {
                CustomerLogic email1 = new CustomerLogic();
                if(email1.sendMail(EmailT.getText(),FnameT.getText(),LnameT.getText(),message.getText(),queryT.getText())) {
             	   System.out.println("Thank you for your feedback");
@@ -748,9 +594,7 @@ public class Main extends Application
             	   
             	   System.out.println("MESSAGE NOT SENT");
                }
-               
-                 stage2.close();
-                 
+               stage2.close();      
              }
          });
     	
@@ -766,7 +610,7 @@ public class Main extends Application
     	
     }
     
-    public void checkLogin() throws ClassNotFoundException {
+    public void checkLogin() {
     	String  username =nametextfield.getText() ;
     	String password =passtextfield.getText() ;
     	Client client= Client.getInstance();
@@ -782,28 +626,15 @@ public class Main extends Application
     			}
     			else
     			{
-    				JOptionPane.showMessageDialog(null, "Bad login");//no login
+    				PopUpW("RECORD ADDED");
+    				//JOptionPane.showMessageDialog(null, "Bad login");//no login
     			}
     		}
     	});
     	t.start();
-    	
-    	
-//    	//client.authenticator("","");
-//    	if ("manager".equals(nametextfield.getText())&& "cabbie".equals(passtextfield.getText())) {
-//    		
-//    		
-//    	}else {
-//    		
-//    	}
-   	
-    	
-    	
     }
     
     public void PopUpW(String x) {
-    	
-    	
     	Stage popupwindow = new Stage();
     	popupwindow.initModality(Modality.APPLICATION_MODAL);
     	popupwindow.setTitle("ALERT");
@@ -867,13 +698,7 @@ public class Main extends Application
         btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                try {
-					checkLogin();
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-                
+                checkLogin();    
             }
         });
         
@@ -1024,13 +849,7 @@ public class Main extends Application
     ADc.setFont(f);
     	Label m1 = new Label("MODEL");
     	Label YEAR = new Label("YEAR");
-    	// final ImageView imv = new ImageView();
-         //final Image image2 = new Image(Main.class.getResourceAsStream("C:\\Users\\berge\\Desktop\\GROUP TAXI\\taxi4.gif"));
-         //imv.setImage(image2);
-       //  GridPane.setConstraints(imv,1,2);
-         
-
-    	
+        
     	GridPane.setConstraints(AI,2,0);
     	GridPane.setConstraints(ADc,2,1);
     	GridPane.setConstraints(NAME,1,3);
@@ -1059,9 +878,28 @@ public class Main extends Application
             	
             	//Function to accept data and pass to database should be called here
                 showMenu();
-                TaxiProvider addcab = new TaxiProvider();
-               int x= addcab.add(new Taxi(0,name.getText(),name.getText(),trn.getText(),(new Vehicle(model.getText(),year.getText()))));
-                if(x==1) {PopUpW("RECORD ADDED ");}////PUT THEPOP UP PANE
+                Client client= Client.getInstance();
+                Thread t=new Thread(new Runnable() {
+                	public void run()
+                	{
+                		System.out.println("Attempting to add driver");
+                		if(client.addCab(0, name.getText(), name.getText(), trn.getText(), new serverTest.Vehicle(model.getText(),year.getText())))
+                        {
+                        	//PopUpW("RECORD ADDED");
+                			System.out.println("Driver added");
+                        }
+                		else
+                		{
+                			System.out.println("Driver could not be added");
+                			//PopUpW("Driver could not be added");
+                		}
+                	}
+                });
+                t.start();
+                //TaxiProvider addcab = new TaxiProvider();
+               //int x= addcab.add(new Taxi(0,name.getText(),name.getText(),trn.getText(),(new Vehicle(model.getText(),year.getText()))));
+                
+                //if(x==1) {PopUpW("RECORD ADDED ");}////PUT THEPOP UP PANE
                stage2.close();
                 
             }
@@ -1111,26 +949,32 @@ public class Main extends Application
             public void handle(ActionEvent event) {
                 showMenu();
                 stage2.close();
-                stage2.close();
-                
-                
+                stage2.close();   
             }
         });
     	search.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 showMenu();
-                TaxiProvider up = new TaxiProvider();
-               if(up.update(Integer.parseInt(Search.getText()))==1) {
-            	   Results.setText(" CAB REMOVED");
-            	  stage2.showAndWait();
-            	  stage2.close();
-            	  
-            	  
-               }
-                
-                
-                
+                Client client= Client.getInstance();
+                Thread t=new Thread(new Runnable() {
+                	public void run()
+                	{
+                		System.out.println("Attempting to decomission");
+                		if(client.decomission(Integer.parseInt(Search.getText()),"","","",new serverTest.Vehicle("",""))) 
+                		{
+                			System.out.println("Driver decomissioned");
+                			Results.setText("CAB REMOVED");
+                		}
+                		else
+                		{
+                			System.out.println("Driver could not be decomissioned");
+                		}
+                	}	
+                });
+                t.start();
+                //stage2.showAndWait();
+            	//stage2.close();     
             }
         });
     
@@ -1171,12 +1015,30 @@ grid3.getChildren().addAll(AI,Rcab,Se,Search,back,search,Results);
     	
     	/////ADD THE CONTENTS OF THE TEXT FIELD;
     	grid3.getChildren().addAll(back,text1,Summary,Sum);
-    	TaxiProvider x2 = new TaxiProvider();
-    	
-    	List<taxi.SummaryReport> results = x2.summaryReport();
-    	for(taxi.SummaryReport report:results) {
-    		Sum.appendText(report.toString());
-    	}
+    	//serverTest.TaxiProvider x2 = new serverTest.TaxiProvider();
+    	//x2.summaryReport();
+    	//List<serverTest.SummaryReport> results = x2.summaryReport();
+    	//for(serverTest.SummaryReport report:results) 
+    	//{
+    	//	System.out.println(report.toString());
+    		//Sum.appendText(report.toString());
+    	//}
+    	Client client= Client.getInstance();
+        Thread t=new Thread(new Runnable() {
+        	public void run()
+        	{
+        		System.out.println("Attempting to get summary report");
+        		if(client.summaryReport())
+        		{
+        			System.out.println("Summary report generated");
+        		}
+        		else
+        		{
+        			System.out.println("Summary report could not be generated");
+        		}
+        	}	
+        });
+        t.start();
     	
     	back.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -1200,9 +1062,6 @@ grid3.getChildren().addAll(AI,Rcab,Se,Search,back,search,Results);
     }
     
     public void missedRequests() {
-    	
-    	
-    	
     	
     	Stage stage2 = new Stage();
     	stage2.setTitle("MISSED REQUESTS");
@@ -1234,9 +1093,9 @@ grid3.getChildren().addAll(AI,Rcab,Se,Search,back,search,Results);
             }
         });
     	
-    	MissedRequestProvider x2 = new MissedRequestProvider();
-    	List<CustomerLogic> results = x2.selectAll();
-    	for(CustomerLogic report:results) {
+    	serverTest.MissedRequestProvider x2 = new serverTest.MissedRequestProvider();
+    	List<serverTest.CustomerLogic> results = x2.selectAll();
+    	for(serverTest.CustomerLogic report:results) {
     		Sum.appendText(report.toString());
     	}
     	
@@ -1253,10 +1112,6 @@ grid3.getChildren().addAll(AI,Rcab,Se,Search,back,search,Results);
     	
     }
     public void feedback() {
-    	
-    	
-    	
-    	
     	Stage stage2 = new Stage();
     	stage2.setTitle("FEEDBACK ");
     	GridPane grid3 = new GridPane();

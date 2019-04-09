@@ -1,6 +1,7 @@
 package serverTest;
 
-import java.net.*; 
+import java.net.*;
+import java.util.List;
 import java.io.*; 
   
 public class Server 
@@ -29,11 +30,13 @@ public class Server
             System.out.println("Waiting for request from client");
             Request request= new Request();
             do {
+            	System.out.println("Waiting for request from client");
             	request= (Request)ois.readObject();
             	System.out.println("Request recieved "+request);
             	
             	if(request!=null) {
-            		if(request.getAction().equals("login")) {
+            		if(request.getAction().equals("login")) 
+            		{
             			System.out.println("This is a login request");
             			Credentials creds = (Credentials)request.getObj();
             			if(creds.getEmail().equals("manager")&& creds.getPassword().equals("cabbie")) {
@@ -47,8 +50,56 @@ public class Server
             				oos.writeObject(new Response(false));
             			}
             		}
+            		if(request.getAction().equals("addCab"))
+            		{
+            			System.out.println("This is a add cab request");
+            			Taxi newDriver = (Taxi)request.getObj();
+            			TaxiProvider Taxidb= new TaxiProvider();
+            			if(Taxidb.add(newDriver)==1)
+            			{
+            				System.out.println("Driver Added Successfully");
+            				oos.writeObject(new Response(true));
+            			}
+            			else
+            			{
+            				System.out.println("Driver could not be added");
+            				oos.writeObject(new Response(false));
+            			}
+            		}
+            		if(request.getAction().equals("decomission"))
+            		{
+            			System.out.println("This is a decomission taxi request");
+            			Taxi newDriver = (Taxi)request.getObj();
+            			TaxiProvider Taxidb= new TaxiProvider();
+            			if(Taxidb.update(newDriver.getId())==1)
+            			{
+            				System.out.println("Driver Decomissioned Successfully");
+            				oos.writeObject(new Response(true));
+            			}
+            			else
+            			{
+            				System.out.println("Driver could not be decomissioned");
+            				oos.writeObject(new Response(false));
+            			}
+            		}
+            		if(request.getAction().equals("summary"))
+            		{
+            			System.out.println("This is the summary report request");
+            			//Taxi newDriver = (Taxi)request.getObj();
+            			TaxiProvider Taxidb= new TaxiProvider();
+            			List<SummaryReport> results=Taxidb.summaryReport();
+            			if(results!=null)
+            			{
+            				System.out.println("Grabbed report Successfully");
+            				oos.writeObject(new Response(results));
+            			}
+            			else
+            			{
+            				System.out.println("Could not retrieve report");
+            				oos.writeObject(new Response(results));
+            			}
+            		}
             	}
-            	
             }while(request!=null && !request.getAction().equals("Exit"));
   
             System.out.println("Closing connection"); 

@@ -5,6 +5,8 @@ import javafx.application.Application;
 import serverTest.*;
 
 import java.net.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.EventQueue;
 import java.io.*; 
   
@@ -50,7 +52,6 @@ public class Client implements Serializable
     {
     	try
     	{
-    		//getStreams();
     		Credentials cred= new Credentials(user,password);
     		Request req= new Request();
     		req.setAction("login");
@@ -76,6 +77,93 @@ public class Client implements Serializable
 		}
     	return false;
     }
+	
+	public boolean addCab(int id, String firstName, String lastName, String trn, Vehicle vehicleInfo)
+	{
+		try
+		{
+			Taxi driver= new Taxi(id,firstName,lastName,trn,vehicleInfo);
+			Request req= new Request();
+			req.setAction("addCab");
+			req.setObj(driver);
+			oos.writeObject(req);
+			Response resp=(Response) in.readObject();
+			Boolean successfulComission=(Boolean)resp.getObj();
+			if(successfulComission)
+			{
+				return true;
+			}
+			else
+			{
+				System.out.println("Error");
+			}
+		}
+		catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+	public boolean decomission(int id, String firstName, String lastName, String trn, Vehicle vehicleInfo)
+	{
+		try
+		{
+			Taxi driver= new Taxi(id,firstName,lastName,trn,vehicleInfo);
+			Request req= new Request();
+			req.setAction("decomission");
+			req.setObj(driver);
+			oos.writeObject(req);
+			Response resp=(Response) in.readObject();
+			Boolean successfulDecomission=(Boolean)resp.getObj();
+			if(successfulDecomission)
+			{
+				return true;
+			}
+			else
+			{
+				System.out.println("Error");
+			}
+		}
+		catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	
+	
+	public boolean summaryReport()
+	{
+		try
+		{
+			SummaryReport driver = new SummaryReport();
+			Request req= new Request();
+			req.setAction("summary");
+			req.setObj(driver);
+			oos.writeObject(req);
+			Response resp=(Response) in.readObject();
+			List<SummaryReport> drivers=(ArrayList<SummaryReport>)resp.getObj();
+			if(driver!=null)
+			{
+				//List<Taxi> results=tp.selectAll();
+				for(SummaryReport report: drivers) {
+					System.out.println(drivers.toString());
+				}
+			}
+			else
+			{
+				System.out.println("Error");
+			}
+		}
+		catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
 	
 	private void getStreams() {
 		try {
