@@ -99,6 +99,14 @@ public class Server
             				oos.writeObject(new Response(results));
             			}
             		}
+            		if(request.getAction().equals("missedRequest"))
+            		{
+            			System.out.println("This is the missed request report");
+            			
+            			
+            		
+            		}
+            		
             	}
             }while(request!=null && !request.getAction().equals("Exit"));
   

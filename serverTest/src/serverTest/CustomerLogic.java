@@ -11,8 +11,16 @@ public class CustomerLogic
 	private int total,id;
 	Timer timer;
 	TaxiProvider taxi=new TaxiProvider();
-	Taxi driver= new Taxi();
+	private Taxi driver= new Taxi();
 	
+	public Taxi getDriver() {
+		return driver;
+	}
+
+	public void setDriver(Taxi driver) {
+		this.driver = driver;
+	}
+
 	public CustomerLogic() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -65,8 +73,8 @@ public class CustomerLogic
 		driver=driverDB.getAvailable();
 		if(driver==null)
 		{
-			missed.add(this);
-			return false;
+			if(missed.add(this)==1)
+				return false;
 		}
 		return true;
 	}

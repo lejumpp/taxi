@@ -133,7 +133,28 @@ public class Client implements Serializable
 		return false;
 	}
 	
-	
+	public boolean checkAvailable()
+	{
+		try
+		{
+			serverTest.CustomerLogic customer= new serverTest.CustomerLogic();
+			Request req= new Request();
+			req.setAction("missedRequest");
+			req.setObj(customer);
+			oos.writeObject(req);
+			Response resp=(Response) in.readObject();
+			Boolean successfulUpdate=(Boolean)resp.getObj();
+			if(successfulUpdate)
+				return true;
+			else
+				System.out.println("Error");
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return false;
+	}
 	
 	public boolean summaryReport()
 	{

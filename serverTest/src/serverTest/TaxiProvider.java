@@ -101,6 +101,33 @@ public class TaxiProvider extends SQLProvider<Taxi>
 		return 0;
 	}
 	
+	public int updateEarning(int id, int distance, int money) //function for updateEarnings
+	{
+		try
+		{
+			int tempDistance, tempMoney;
+			statement = con.createStatement();
+			String query1 = ("SELECT * FROM "+TABLE_NAME+" WHERE TaxiId="+id+"");
+			result = statement.executeQuery(query1);
+			Taxi driver= new Taxi();
+			tempDistance=result.getInt("Distance");
+			tempMoney=result.getInt("CashEarned");
+			
+			String query= "UPDATE "+TABLE_NAME+ " SET Distance = ?, SET CashEarned  "+ " WHERE TaxiID = ?";
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setInt(1, id);
+			ps.setInt(2, distance+tempDistance);
+			ps.setInt(3, money+tempMoney);
+			return ps.executeUpdate();		
+    	}
+		catch(SQLException e)
+		{
+			System.out.println("Something wrong with SQL");
+			//logger.error("Unable to update marker with id "+id,e);
+		}
+		return 0;
+	}
+	
 	public int recommission(int id)
 	{
 		try

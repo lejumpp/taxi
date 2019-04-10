@@ -403,8 +403,13 @@ public class Main extends Application
             	{
             		System.out.println("Unavailable cabs");
             	}
-            	//cust.Reminder(e.getDest().length()+e.getSource().length());
-                //RequestConfirmed();
+            	else
+            	{
+            		serverTest.TaxiProvider taxiDB= new serverTest.TaxiProvider();
+            		taxiDB.updateEarning(cust.getDriver().getId(), e.getDest().length()+e.getSource().length(),price);
+            		cust.Reminder(e.getDest().length()+e.getSource().length());
+            	}
+                RequestConfirmed();
             	
                 stage2.close();
                 
