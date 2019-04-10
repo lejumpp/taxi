@@ -1,11 +1,12 @@
 package serverTest;
 
+import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaxiProvider extends SQLProvider<Taxi>
+public class TaxiProvider extends SQLProvider<Taxi> implements Serializable
 {
 	private static final String TABLE_NAME = "taxi_man";
 	

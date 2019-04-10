@@ -186,6 +186,36 @@ public class Client implements Serializable
 		return false;
 	}
 	
+	public boolean missedRequestDB()
+	{
+		try
+		{
+			CustomerLogic customer = new CustomerLogic();
+			Request req= new Request();
+			req.setAction("missedRequestDB");
+			req.setObj(customer);
+			oos.writeObject(req);
+			Response resp=(Response) in.readObject();
+			List<CustomerLogic> request=(ArrayList<CustomerLogic>)resp.getObj();
+			if(customer!=null)
+			{
+				//List<Taxi> results=tp.selectAll();
+				for(CustomerLogic report: request) {
+					System.out.println(request.toString());
+				}
+			}
+			else
+			{
+				System.out.println("Error");
+			}
+		}
+		catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 	private void getStreams() {
 		try {
 			oos = new ObjectOutputStream(socket.getOutputStream());

@@ -399,18 +399,28 @@ public class Main extends Application
             @Override
             public void handle(ActionEvent event)
             {
-            	if(!cust.checkAvailability())
-            	{
-            		System.out.println("Unavailable cabs");
-            	}
-            	else
-            	{
-            		serverTest.TaxiProvider taxiDB= new serverTest.TaxiProvider();
-            		taxiDB.updateEarning(cust.getDriver().getId(), e.getDest().length()+e.getSource().length(),price);
-            		cust.Reminder(e.getDest().length()+e.getSource().length());
-            	}
-                RequestConfirmed();
             	
+            	Client client= Client.getInstance();
+                Thread t=new Thread(new Runnable() {
+                	public void run()
+                	{
+                		
+                		System.out.println("Attempting to confirm request");
+                		if(!client.checkAvailable())
+                        {
+                        	//PopUpW("RECORD ADDED");
+                			System.out.println("no cabs");
+                        }
+                		else
+                		{
+                			serverTest.TaxiProvider taxiDB= new serverTest.TaxiProvider();
+                    		taxiDB.updateEarning(cust.getDriver().getId(), e.getDest().length()+e.getSource().length(),price);
+                    		cust.Reminder(e.getDest().length()+e.getSource().length());
+                    		RequestConfirmed();
+                		}
+                	}
+                });
+                t.start();
                 stage2.close();
                 
             }
@@ -1098,11 +1108,27 @@ grid3.getChildren().addAll(AI,Rcab,Se,Search,back,search,Results);
             }
         });
     	
-    	serverTest.MissedRequestProvider x2 = new serverTest.MissedRequestProvider();
-    	List<serverTest.CustomerLogic> results = x2.selectAll();
-    	for(serverTest.CustomerLogic report:results) {
-    		Sum.appendText(report.toString());
-    	}
+//    	serverTest.MissedRequestProvider x2 = new serverTest.MissedRequestProvider();
+//    	List<serverTest.CustomerLogic> results = x2.selectAll();
+//    	for(serverTest.CustomerLogic report:results) {
+//    		Sum.appendText(report.toString());
+//    	}
+    	Client client= Client.getInstance();
+        Thread t=new Thread(new Runnable() {
+        	public void run()
+        	{
+        		System.out.println("Attempting to get summary report");
+        		if(client.missedRequestDB())
+        		{
+        			System.out.println("Missed request report generated");
+        		}
+        		else
+        		{
+        			System.out.println("Missed request report could not be generated");
+        		}
+        	}	
+        });
+        t.start();
     	
     	
     	Scene scene = new Scene(grid3, 400, 350);
@@ -1111,10 +1137,6 @@ grid3.getChildren().addAll(AI,Rcab,Se,Search,back,search,Results);
         stage2.setScene(scene);
         
         stage2.show();
-    	
-    	
-    	
-    	
     }
     public void feedback() {
     	Stage stage2 = new Stage();

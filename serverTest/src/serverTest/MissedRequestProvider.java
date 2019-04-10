@@ -1,12 +1,13 @@
 package serverTest;
 
+import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class MissedRequestProvider extends SQLProvider <CustomerLogic>
+public class MissedRequestProvider extends SQLProvider <CustomerLogic> implements Serializable
 {
 	private static final String TABLE_NAME = "missed_request";
 	

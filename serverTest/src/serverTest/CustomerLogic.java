@@ -1,11 +1,11 @@
 package serverTest;
 import java.util.Timer;
 import java.util.TimerTask;
-
+import java.io.Serializable;
 import java.util.Scanner;
 
 
-public class CustomerLogic 
+public class CustomerLogic implements Serializable
 {
 	private String source,destination;
 	private int total,id;

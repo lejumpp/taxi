@@ -1,12 +1,13 @@
 package serverTest;
 
+import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class FeedbackProvider extends SQLProvider <Feedback> 
+public class FeedbackProvider extends SQLProvider <Feedback> implements Serializable
 {
 	private static final String TABLE_NAME = "taxi_feedback";
 	

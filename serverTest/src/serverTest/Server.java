@@ -102,10 +102,39 @@ public class Server
             		if(request.getAction().equals("missedRequest"))
             		{
             			System.out.println("This is the missed request report");
-            			
-            			
-            		
+            			MissedRequestProvider missed= new MissedRequestProvider();
+            			CustomerLogic customer= new CustomerLogic();
+            			if(!customer.checkAvailability())
+            			{
+            				System.out.println("Missed Request Added");
+            			}
+            			else
+            			{
+            				
+            			}
             		}
+            		if(request.getAction().equals("feedback"))
+            		{
+            			
+            		}
+            		if(request.getAction().equals("missedRequestDB"))
+            		{
+            			System.out.println("This is the missed request request");
+            			//Taxi newDriver = (Taxi)request.getObj();
+            			MissedRequestProvider requestDB= new MissedRequestProvider();
+            			List<CustomerLogic> results=requestDB.selectAll();
+            			if(results!=null)
+            			{
+            				System.out.println("Grabbed report Successfully");
+            				oos.writeObject(new Response(results));
+            			}
+            			else
+            			{
+            				System.out.println("Could not retrieve report");
+            				oos.writeObject(new Response(results));
+            			}
+            		}
+            		
             		
             	}
             }while(request!=null && !request.getAction().equals("Exit"));
