@@ -101,16 +101,22 @@ public class Server
             		}
             		if(request.getAction().equals("missedRequest"))
             		{
-            			System.out.println("This is the missed request report");
+            			
+            		}
+            		if(request.getAction().equals("confirmRequest"))
+            		{
+            			System.out.println("This is the confirm request report");
             			MissedRequestProvider missed= new MissedRequestProvider();
             			CustomerLogic customer= new CustomerLogic();
             			if(!customer.checkAvailability())
             			{
             				System.out.println("Missed Request Added");
+            				oos.writeObject(new Response(false));
             			}
             			else
             			{
-            				
+            				System.out.println("Confimration made");
+            				oos.writeObject(new Response(true));
             			}
             		}
             		if(request.getAction().equals("feedback"))

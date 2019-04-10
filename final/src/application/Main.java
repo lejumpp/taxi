@@ -401,22 +401,29 @@ public class Main extends Application
             {
             	
             	Client client= Client.getInstance();
+            	Thread t2=new Thread(new Runnable() {
+                	public void run()
+                	{
+                		RequestConfirmed();
+                	}
+        		});
                 Thread t=new Thread(new Runnable() {
                 	public void run()
                 	{
                 		
                 		System.out.println("Attempting to confirm request");
-                		if(!client.checkAvailable())
+                		if(!client.confirmCab())
                         {
                         	//PopUpW("RECORD ADDED");
                 			System.out.println("no cabs");
+                			
                         }
                 		else
                 		{
                 			serverTest.TaxiProvider taxiDB= new serverTest.TaxiProvider();
                     		taxiDB.updateEarning(cust.getDriver().getId(), e.getDest().length()+e.getSource().length(),price);
                     		cust.Reminder(e.getDest().length()+e.getSource().length());
-                    		RequestConfirmed();
+                    		t2.start();
                 		}
                 	}
                 });

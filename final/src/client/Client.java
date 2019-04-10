@@ -133,13 +133,13 @@ public class Client implements Serializable
 		return false;
 	}
 	
-	public boolean checkAvailable()
+	public boolean confirmCab()
 	{
 		try
 		{
 			serverTest.CustomerLogic customer= new serverTest.CustomerLogic();
 			Request req= new Request();
-			req.setAction("missedRequest");
+			req.setAction("confirmRequest");
 			req.setObj(customer);
 			oos.writeObject(req);
 			Response resp=(Response) in.readObject();

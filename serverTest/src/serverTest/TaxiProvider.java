@@ -114,11 +114,11 @@ public class TaxiProvider extends SQLProvider<Taxi> implements Serializable
 			tempDistance=result.getInt("Distance");
 			tempMoney=result.getInt("CashEarned");
 			
-			String query= "UPDATE "+TABLE_NAME+ " SET Distance = ?, SET CashEarned  "+ " WHERE TaxiID = ?";
+			String query= "UPDATE "+TABLE_NAME+ " SET Distance = ?, CashEarned = ?  "+ " WHERE TaxiID = ?";
 			PreparedStatement ps = con.prepareStatement(query);
-			ps.setInt(1, id);
-			ps.setInt(2, distance+tempDistance);
-			ps.setInt(3, money+tempMoney);
+			ps.setInt(3, id);
+			ps.setInt(1, distance+tempDistance);
+			ps.setInt(2, money+tempMoney);
 			return ps.executeUpdate();		
     	}
 		catch(SQLException e)
