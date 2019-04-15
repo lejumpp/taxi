@@ -412,7 +412,7 @@ public class Main extends Application
                 	{
                 		
                 		System.out.println("Attempting to confirm request");
-                		if(!client.confirmCab())
+                		if(!client.confirmCab(e.getSource(),e.getDest(),price))
                         {
                         	//PopUpW("RECORD ADDED");
                 			System.out.println("no cabs");
@@ -420,16 +420,16 @@ public class Main extends Application
                         }
                 		else
                 		{
-                			serverTest.TaxiProvider taxiDB= new serverTest.TaxiProvider();
-                    		taxiDB.updateEarning(cust.getDriver().getId(), e.getDest().length()+e.getSource().length(),price);
-                    		cust.Reminder(e.getDest().length()+e.getSource().length());
-                    		t2.start();
+                			//serverTest.TaxiProvider taxiDB= new serverTest.TaxiProvider();
+                    		//taxiDB.updateEarning(cust.getDriver().getId(), e.getDest().length()+e.getSource().length(),price);
+                    		//cust.Reminder(e.getDest().length()+e.getSource().length());
+                    		//t2.start();
                 		}
                 	}
                 });
                 t.start();
                 stage2.close();
-                
+                RequestConfirmed();
             }
         });
     	

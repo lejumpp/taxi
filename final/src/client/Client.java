@@ -133,11 +133,11 @@ public class Client implements Serializable
 		return false;
 	}
 	
-	public boolean confirmCab()
+	public boolean confirmCab(String source, String destination, int money)
 	{
 		try
 		{
-			serverTest.CustomerLogic customer= new serverTest.CustomerLogic();
+			serverTest.CustomerLogic customer= new serverTest.CustomerLogic(source,destination,money,0);
 			Request req= new Request();
 			req.setAction("confirmRequest");
 			req.setObj(customer);

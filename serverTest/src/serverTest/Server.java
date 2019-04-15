@@ -105,10 +105,10 @@ public class Server
             		}
             		if(request.getAction().equals("confirmRequest"))
             		{
-            			System.out.println("This is the confirm request report");
+            			System.out.println("This is request confirmation");
             			MissedRequestProvider missed= new MissedRequestProvider();
-            			CustomerLogic customer= new CustomerLogic();
-            			if(!customer.checkAvailability())
+            			CustomerLogic customer= (CustomerLogic)request.getObj();
+            			if(customer.checkAvailability(customer)==null)
             			{
             				System.out.println("Missed Request Added");
             				oos.writeObject(new Response(false));
