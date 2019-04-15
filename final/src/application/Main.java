@@ -416,6 +416,7 @@ public class Main extends Application
                         {
                         	//PopUpW("RECORD ADDED");
                 			System.out.println("no cabs");
+                			return;
                 			
                         }
                 		else
@@ -545,13 +546,37 @@ public class Main extends Application
         	GridPane.setConstraints(Inter,1,7);
         	confirm.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
-                public void handle(ActionEvent event) {
-                  CustomerLogic email1 = new CustomerLogic();
-                  if(true) {
-               	   System.out.println("Thank you!");
-                  }else {
-               	   
-               	   System.out.println("Error");
+                public void handle(ActionEvent event) 
+                {
+                	Client client= Client.getInstance();
+                    Thread t=new Thread(new Runnable() {
+                    	public void run()
+                    	{
+                    		serverTest.Taxi driver=new serverTest.Taxi();
+                    		System.out.println("Attempting to add feedback");
+                    		TaxiProvider tp= new TaxiProvider();
+                    		driver.setId(tp.getAvailable().getId());
+                    		int rating=(int) group.getSelectedToggle().getUserData();
+                    		if(client.feedback(0, rating, Feedback.getText(),driver))
+                            {
+                            	//PopUpW("RECORD ADDED");
+                    			System.out.println("Feedback added");
+                            }
+                    		else
+                    		{
+                    			System.out.println("Feedback could not be added");
+                    			//PopUpW("Driver could not be added");
+                    		}
+                    	}
+                    });
+                    t.start();
+                  
+                  if(true)
+                  {
+                	  System.out.println("Thank you!");
+                  }else
+                  {
+                	  System.out.println("Error");
                   }
                   
                     //grid2.close();
@@ -1183,7 +1208,22 @@ grid3.getChildren().addAll(AI,Rcab,Se,Search,back,search,Results);
             @Override
             public void handle(ActionEvent event) {
               String y =   Search1.getText();
-                // ADDD FUNCTION
+              Client client= Client.getInstance();
+              Thread t=new Thread(new Runnable() {
+              	public void run()
+              	{
+              		System.out.println("Attempting to get feedback");
+              		if(client.feedbackManager(Integer.parseInt(y))) 
+              		{
+              			System.out.println("Feedback recieved");
+              		}
+              		else
+              		{
+              			System.out.println("Driver has no feedback");
+              		}
+              	}	
+              });
+              t.start();
                 
             }
         });

@@ -52,7 +52,29 @@ public class FeedbackProvider extends SQLProvider <Feedback>
 
 	@Override
 	public Feedback get(int id) {
-		// TODO Auto-generated method stub
+		Feedback feed=null;
+		try
+		{
+			statement= con.createStatement();
+			String query="select * from "+TABLE_NAME+" where TaxiId ="+id;
+			result=statement.executeQuery(query);
+			while(result.next())
+			{
+				feed= new Feedback();
+				Taxi driver= new Taxi();
+				feed.setId(result.getInt("FeedbackId"));
+				feed.setComment(result.getString("Comment"));
+				feed.setRating(result.getInt("Rating"));
+				driver.setFirstName(result.getString("TaxiFirstName"));
+				driver.setLastName(result.getString("TaxiLastName"));
+				feed.setDriver(driver);
+			}
+			return feed;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		return null;
 	}
 
@@ -62,12 +84,13 @@ public class FeedbackProvider extends SQLProvider <Feedback>
 		return 0;
 	}
 
-	public int add(Taxi obj,Feedback item) 
+	public int add(Feedback item) 
 	{
 		String query= "INSERT INTO "+TABLE_NAME + " (Rating, Comment, TaxiId, TaxiFirstName, TaxiLastName)"
 				+ "VALUES (?,?,?,?,?);";
 		try
-		{		      
+		{		   
+			Taxi obj= new Taxi();
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, item.getRating());
 			ps.setString(2, item.getComment());
@@ -115,12 +138,6 @@ public class FeedbackProvider extends SQLProvider <Feedback>
 			System.out.println("Some Error in select all function");
 		}
 		return feedbacks;
-	}
-
-	@Override
-	public int add(Feedback item) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 }
