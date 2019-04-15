@@ -11,7 +11,7 @@ public class CustomerLogic implements Serializable
 	private int total,id;
 	Timer timer;
 	TaxiProvider taxi=new TaxiProvider();
-	private Taxi driver= new Taxi();
+	private Taxi driver= null;
 	
 	public Taxi getDriver() {
 		return driver;
@@ -66,17 +66,29 @@ public class CustomerLogic implements Serializable
 		return setTotal(basePrice+(perKm*(source.length()+destination.length())));
 	};
 	
-	public boolean checkAvailability()
+	public Taxi checkAvailability(CustomerLogic item)
 	{
 		MissedRequestProvider missed= new MissedRequestProvider();
 		TaxiProvider driverDB= new TaxiProvider();
 		driver=driverDB.getAvailable();
 		if(driver==null)
 		{
-			if(missed.add(this)==1)
-				return false;
+			if(missed.add(item)==1)
+				return null;
 		}
-		return true;
+		else
+		{
+			driverDB.updateEarning(driver.getId(), item.getDestination().length()+item.getSource().length(), item.getTotal());
+			driverDB.update(driver.getId());
+			Thread t=new Thread(new Runnable() {
+            	public void run()
+            	{
+            		item.Reminder(item.getTotal());
+            	}
+			});
+			t.start();
+		}
+		return driver;
 	}
 	
 	public void Reminder(int seconds)

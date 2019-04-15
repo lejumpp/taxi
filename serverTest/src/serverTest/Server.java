@@ -99,16 +99,25 @@ public class Server
             				oos.writeObject(new Response(results));
             			}
             		}
-            		if(request.getAction().equals("missedRequest"))
+            		if(request.getAction().equals("customerFeedback"))
             		{
-            			
+            			System.out.println("This is a feedback request");
+            			FeedbackProvider feed= new FeedbackProvider();
+            			Feedback feedback=(Feedback)request.getObj();
+            			if(feed.add(feedback)==1)
+            			{
+            				System.out.println("Feedback entered");
+            				oos.writeObject(new Response(true));
+            			}
+            			else
+            				oos.writeObject(new Response(false));
             		}
             		if(request.getAction().equals("confirmRequest"))
             		{
-            			System.out.println("This is the confirm request report");
+            			System.out.println("This is request confirmation");
             			MissedRequestProvider missed= new MissedRequestProvider();
-            			CustomerLogic customer= new CustomerLogic();
-            			if(!customer.checkAvailability())
+            			CustomerLogic customer= (CustomerLogic)request.getObj();
+            			if(customer.checkAvailability(customer)==null)
             			{
             				System.out.println("Missed Request Added");
             				oos.writeObject(new Response(false));
@@ -119,9 +128,22 @@ public class Server
             				oos.writeObject(new Response(true));
             			}
             		}
-            		if(request.getAction().equals("feedback"))
+            		if(request.getAction().equals("feedbackDB"))
             		{
-            			
+            			System.out.println("This is the feedback request");
+            			FeedbackProvider feedback= new FeedbackProvider();
+            			Feedback feed= (Feedback)request.getObj();
+            			feed=feedback.get(feed.getId());
+            			if(feed!=null)
+            			{
+            				System.out.println("Grabbed feedback Successfully");
+            				oos.writeObject(new Response(feed));
+            			}
+            			else
+            			{
+            				System.out.println("Could not grab feedback");
+            				oos.writeObject(new Response(null));
+            			}
             		}
             		if(request.getAction().equals("missedRequestDB"))
             		{

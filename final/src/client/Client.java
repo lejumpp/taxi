@@ -133,11 +133,11 @@ public class Client implements Serializable
 		return false;
 	}
 	
-	public boolean confirmCab()
+	public boolean confirmCab(String source, String destination, int money)
 	{
 		try
 		{
-			serverTest.CustomerLogic customer= new serverTest.CustomerLogic();
+			serverTest.CustomerLogic customer= new serverTest.CustomerLogic(source,destination,money,0);
 			Request req= new Request();
 			req.setAction("confirmRequest");
 			req.setObj(customer);
@@ -206,13 +206,68 @@ public class Client implements Serializable
 			}
 			else
 			{
-				System.out.println("Error");
+				System.out.println("No missed request");
 			}
 		}
 		catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return false;
+	}
+	
+	public boolean feedback(int id, int rating, String comment,Taxi Driver)
+	{
+		try 
+		{
+			serverTest.Feedback feedback=new Feedback(0,rating,comment,Driver);
+			Request req= new Request();
+			req.setAction("customerFeedback");
+			req.setObj(feedback);
+			oos.writeObject(req);
+			Response resp=(Response) in.readObject();
+			Boolean successfulUpdate=(Boolean)resp.getObj();
+			if(successfulUpdate)
+			{
+				System.out.println("Feedback Recieved");
+			}
+			else
+			{
+				System.out.println("Unable to accept feedback");
+			}
+		}
+		catch(IOException | ClassNotFoundException e)
+		{
+			
+		}
+		return false;
+	}
+	
+	public boolean feedbackManager(int id)
+	{
+		try 
+		{
+			serverTest.Feedback feedback=new Feedback();
+			feedback.setId(id);
+			Request req= new Request();
+			req.setAction("feedbackDB");
+			req.setObj(feedback);
+			oos.writeObject(req);
+			Response resp=(Response) in.readObject();
+			feedback=(Feedback)resp.getObj();
+			if(feedback!=null)
+			{
+				System.out.println(feedback);
+				return true;
+			}
+			else
+				System.out.println("No feedback for this driver");
+		} 
+		catch (IOException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return false;
 	}
 	

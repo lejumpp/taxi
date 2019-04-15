@@ -110,15 +110,15 @@ public class TaxiProvider extends SQLProvider<Taxi> implements Serializable
 			statement = con.createStatement();
 			String query1 = ("SELECT * FROM "+TABLE_NAME+" WHERE TaxiId="+id+"");
 			result = statement.executeQuery(query1);
-			Taxi driver= new Taxi();
+			//Taxi driver= new Taxi();
 			tempDistance=result.getInt("Distance");
 			tempMoney=result.getInt("CashEarned");
 			
 			String query= "UPDATE "+TABLE_NAME+ " SET Distance = ?, CashEarned = ?  "+ " WHERE TaxiID = ?";
 			PreparedStatement ps = con.prepareStatement(query);
-			ps.setInt(3, id);
 			ps.setInt(1, distance+tempDistance);
 			ps.setInt(2, money+tempMoney);
+			ps.setInt(3, id);
 			return ps.executeUpdate();		
     	}
 		catch(SQLException e)
@@ -202,7 +202,7 @@ public class TaxiProvider extends SQLProvider<Taxi> implements Serializable
 				vehics.setVehicleYear(result.getString("VehicleYear"));
 				driver.setVehicleInfo(vehics);
 				report.setTotalDistance(result.getInt("Distance"));
-				report.setTotalDistance(result.getInt("CashEarned"));
+				report.setTotalMoneyEarned(result.getInt("CashEarned"));
 				report.setDriver(driver);
 				drivers.add(report);
 			}
